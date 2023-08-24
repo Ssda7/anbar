@@ -1,0 +1,17 @@
+<form action="{% url 'Order' %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+            <label for="quantity">Tedade Coffee:</label>
+            <input type="number" name="Coffee_n" id="{{ coffee_n }}" value="{{ coffee_n }}">
+            <label for="quantity">Tedade Tea:</label>
+            <input type="number" name="Tea_n" id="{{ tea_n }}" value="{{ tea_n }}">
+            <label for="quantity">Tedade Croissant:</label>
+            <input type="number" name="Cr_n" id="{{ cr_n }}" value="{{ cr_n }}">
+            <label for="quantity">Tedade Cake:</label>
+            <input type="number" name="Cake_n" id="{{ cake_n }}" value="{{ cake_n }}">
+
+    </fieldset>
+    <input type="submit" value="Vote">
+    </form>
