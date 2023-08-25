@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from . import models
 from .models import Sefaresh
+from django.utils import timezone
 
 # Create your views here.
 
@@ -16,7 +17,7 @@ def ord_view(request):
 
 
         c_name = request.POST.get("name")
-        order_date = request.POST.get("ordertime")
+        order_date = timezone.now()
         des_time = request.POST.get("desiredtime")
         table = int(request.POST.get("table"))
         tc = int(request.POST.get("Coffee_n"))
