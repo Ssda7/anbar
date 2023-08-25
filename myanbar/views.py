@@ -26,7 +26,7 @@ def ord_view(request):
         tca = int(request.POST.get("Cake_n"))
         total = (tc * 5) + (tt * 3) + (tcr + tca) * 7
 
-        models.Sefaresh.name = c_name
+
         s = Sefaresh(name = c_name, date = order_date, desired_time = des_time, table = table_n, coffee_n = tc, tea_n = tt, cr_n = tcr, cake_n = tca, cost = total)
         s.save()
 
