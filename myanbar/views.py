@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from . import models
-from .models import Order
+from .models import Sefaresh
 
 # Create your views here.
 
@@ -9,21 +9,37 @@ from .models import Order
 
 
 
-def Order(request):
+def ord_view(request):
     if request.method == 'POST':
         print(request.POST)
-        sefaresh = Order.objects.all()
+        sefaresh = Sefaresh.objects.all()
 
 
-
-        total = ((request.POST.get("coffee_n")) * 5) + (request.POST.get("tea_n") * 3) + ((request.POST.get("cr_n") + request.POST.get("cake_n")) * 7)
+        c_name = request.POST.get("name")
+        order_date = request.POST.get("ordertime")
+        des_time = request.POST.get("desiredtime")
+        table = int(request.POST.get("table"))
+        tc = int(request.POST.get("Coffee_n"))
+        tt = int(request.POST.get("Tea_n"))
+        tcr = int(request.POST.get("Cr_n"))
+        tca = int(request.POST.get("Cake_n"))
+        total = (tc * 5) + (tt * 3) + (tcr + tca) * 7
 
         context = {
-            'total':total
+            'total':total,
+            'c_name':c_name,
+            'order_date':order_date,
+            'des_time':des_time,
+            'table':table,
+            'tc':tc,
+            'tt':tt,
+            'tcr':tcr,
+            'tca':tca
         }
+
         return render(request,'myanbar/total.html',context)
     else:
-        context = [
+        context = {
 
-        ]
+        }
         return render(request,'myanbar/Order.html',context)

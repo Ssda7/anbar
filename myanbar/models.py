@@ -16,7 +16,7 @@ class Item(models.Model):
     def __str__(self):
         return self.Item_name
     
-class Order(models.Model):
+class Sefaresh(models.Model):
     name = models.CharField(max_length=200)
     table = models.IntegerField(default=0)
     date = models.DateTimeField("date published")
