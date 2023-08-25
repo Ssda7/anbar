@@ -25,6 +25,7 @@ class Sefaresh(models.Model):
     tea_n = models.IntegerField(default=0)
     cr_n = models.IntegerField(default=0)
     cake_n = models.IntegerField(default=0)
+    cost = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
