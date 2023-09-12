@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 class Item(models.Model):
@@ -29,6 +30,14 @@ class Sefaresh(models.Model):
 
     def __str__(self):
         return self.name
+
+class PromoCode(models.Model):
+    p_code = models.CharField(max_length=200, unique=True)
+    discount = models.IntegerField(default=0)
+    created_date = models.DateTimeField(default=timezone.now)
+    time_used = models.IntegerField(default=0)
+    def __str__(self):
+        return self.p_code
 
 
     

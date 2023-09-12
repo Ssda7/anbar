@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from . import models
-from .models import Sefaresh
+from .models import Sefaresh, PromoCode
 from django.utils import timezone
 
 # Create your views here.
@@ -13,7 +13,6 @@ from django.utils import timezone
 def ord_view(request):
     if request.method == 'POST':
         print(request.POST)
-        sefaresh = Sefaresh.objects.all()
 
 
         c_name = request.POST.get("name")
@@ -24,7 +23,22 @@ def ord_view(request):
         tt = int(request.POST.get("Tea_n"))
         tcr = int(request.POST.get("Cr_n"))
         tca = int(request.POST.get("Cake_n"))
-        total = (tc * 5) + (tt * 3) + (tcr + tca) * 7
+        user_code = request.POST.get("promo")
+        disc = 0
+        i = 1
+        while i <= PromoCode.objects.count():
+            temp = PromoCode.objects.get(pk=i)
+            admin_code = temp.p_code
+            if user_code == admin_code:
+                disc = temp.discount
+                temp.time_used += 1
+                temp.save()
+                break
+            else:
+                i += 1
+
+        total = ((tc * 5) + (tt * 3) + (tcr + tca) * 7) - disc
+
 
 
         s = Sefaresh(name = c_name, date = order_date, desired_time = des_time, table = table_n, coffee_n = tc, tea_n = tt, cr_n = tcr, cake_n = tca, cost = total)
