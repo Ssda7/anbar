@@ -27,12 +27,13 @@ class Sefaresh(models.Model):
     cr_n = models.IntegerField(default=0)
     cake_n = models.IntegerField(default=0)
     cost = models.IntegerField(default=0)
+    promo_used = models.ForeignKey("PromoCode", on_delete=models.PROTECT, default=None, blank=True, null=True)
 
     def __str__(self):
         return self.name
 
 class PromoCode(models.Model):
-    p_code = models.CharField(max_length=200, unique=True)
+    p_code = models.CharField(max_length=200, unique=True, primary_key=True)
     discount = models.IntegerField(default=0)
     created_date = models.DateTimeField(default=timezone.now)
     time_used = models.IntegerField(default=0)

@@ -24,25 +24,28 @@ def ord_view(request):
         tcr = int(request.POST.get("Cr_n"))
         tca = int(request.POST.get("Cake_n"))
         user_code = request.POST.get("promo")
-        disc = 0
-        i = 1
-        while i <= PromoCode.objects.count():
-            temp = PromoCode.objects.get(pk=i)
-            admin_code = temp.p_code
-            if user_code == admin_code:
-                disc = temp.discount
-                temp.time_used += 1
-                temp.save()
-                break
-            else:
-                i += 1
+        try:
+            d = PromoCode.objects.get(p_code = user_code)
+            d.time_used += 1
+            disc = d.discount
+            d.save()
+            total = ((tc * 5) + (tt * 3) + (tcr + tca) * 7) - disc
+            s = Sefaresh(name = c_name, date = order_date, desired_time = des_time, table = table_n, coffee_n = tc, tea_n = tt, cr_n = tcr, cake_n = tca, cost = total, promo_used= PromoCode(p_code = user_code))
+            s.save()
+            
+        except: 
+            disc = 0
+            total = ((tc * 5) + (tt * 3) + (tcr + tca) * 7) - disc
+            s = Sefaresh(name = c_name, date = order_date, desired_time = des_time, table = table_n, coffee_n = tc, tea_n = tt, cr_n = tcr, cake_n = tca, cost = total)
+            s.save()
+            
 
-        total = ((tc * 5) + (tt * 3) + (tcr + tca) * 7) - disc
+
+        
 
 
 
-        s = Sefaresh(name = c_name, date = order_date, desired_time = des_time, table = table_n, coffee_n = tc, tea_n = tt, cr_n = tcr, cake_n = tca, cost = total)
-        s.save()
+        
 
         context = {
             'total':total,
