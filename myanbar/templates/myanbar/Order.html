@@ -1,25 +1,24 @@
 <form action="{% url 'Order' %}" method="post">
     {% csrf_token %}
-    <h2>Sefareshe khod ra vared konid:</h2>
+    <h2>You can order here:</h2>
     <fieldset>
         <label for="name">Your Name:</label>
         <input type="text" id="name" name="name"><br>
-        <label for="quantity">Table Number (between 1 and 30):</label>
+        <label for="quantity">Table Number (From 1 to 30):</label>
         <input type="number" id="quantity" name="table" min="1" max="30"><br>
         <label for="desiredtime">Desired Time:</label>
         <input type="datetime-local" id="desiredtime" name="desiredtime"><br>
         <label for="promo">Promo Code:</label>
         <input type="text" id="promo" name="promo"><br>
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-            <label for="quantity">Tedade Coffee:</label>
-            <input type="number" name="Coffee_n" id="{{ coffee_n }}" value="{{ coffee_n }}"><br>
-            <label for="quantity">Tedade Tea:</label>
-            <input type="number" name="Tea_n" id="{{ tea_n }}" value="{{ tea_n }}"><br>
-            <label for="quantity">Tedade Croissant:</label>
-            <input type="number" name="Cr_n" id="{{ cr_n }}" value="{{ cr_n }}"><br>
-            <label for="quantity">Tedade Cake:</label>
-            <input type="number" name="Cake_n" id="{{ cake_n }}" value="{{ cake_n }}">
+            {% for item in items %}
+                <div class="item-container">
+                    <label for="item_name">{{ item.item_name }}: </label>
+                    <input type="hidden" name="item_name_{{ item.id }}" value="{{ item.item_name }}">
+                    <input type="number" name="quantity_{{ item.id }}" value="quantity">
+                </div>
+            {% endfor %}
 
     </fieldset>
-    <input type="submit" value="Sabte Sefaresh">
+    <input type="submit" value="Submit your Order">
     </form>
