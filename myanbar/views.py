@@ -24,6 +24,7 @@ def ord_view(request):
 
         #Create a new Order Instance:
         order = Order.objects.create(name = c_name, date = order_date, desired_time = des_time, table = table_n)
+        o_id = order.order_id
 
 
         total_price = 0
