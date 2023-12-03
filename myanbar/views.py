@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from . import models
 from .models import Order, PromoCode, Item, ItemOrder
 from django.utils import timezone
@@ -14,7 +14,7 @@ def ord_view(request):
 
     items = Item.objects.all().exclude(amount=0)
     if request.method == 'POST':
-        print(request.POST)
+        #print(request.POST)
 
 
         c_name = request.POST.get("name")
@@ -34,7 +34,12 @@ def ord_view(request):
             i_name = str(request.POST.get('item_name_' + str(item.id)))
             specific_item = Item.objects.get(item_name = i_name)
             if quantity > specific_item.amount:
-                return redirect("http://127.0.0.1:8000/Bar/Order/")
+                error_message =str("Sorry, we don' have that much " + i_name + " Try something lower than " + str(specific_item.amount))
+                context = {
+                    'items':items,
+                    'error_message':error_message,
+                }
+                return render(request, 'myanbar/Order.html', context)
                 break
             
             specific_item.amount -= quantity
@@ -62,6 +67,7 @@ def ord_view(request):
             total_price -= disc
             order.cost = total_price
             order.save()
+            
 
         context = {
             'total':total_price,
@@ -69,8 +75,11 @@ def ord_view(request):
             'order_date':order_date,
             'des_time':des_time,
             'table':table_n,
+            'orders':order,
+            'id':o_id,
             
         }
+
 
         return render(request,'myanbar/total.html',context)
     else:
