@@ -52,6 +52,14 @@ def ord_view(request):
 
  
         user_code = request.POST.get("promo")
+        code_validate = PromoCode.objects.filter(p_code = user_code).exists()
+        if code_validate == False :
+            error_message =str("Enter a valid Promo Code")
+            context = {
+                'items':items,
+                'error_message':error_message,
+            }
+            return render(request, 'myanbar/Order.html', context)
         try:
             d = PromoCode.objects.get(p_code = user_code)
             d.time_used += 1
